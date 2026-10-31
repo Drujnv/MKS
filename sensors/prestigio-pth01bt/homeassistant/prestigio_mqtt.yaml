@@ -1,0 +1,62 @@
+﻿# Home Assistant: MQTT-сущности Prestigio PTH01BT.
+# Замените MAC-плейсхолдер на MAC без двоеточий, нижним регистром.
+# Подходит для R4S-шлюза (топики r4s0/<mac>/...) и любого MQTT-моста.
+
+mqtt:
+  sensor:
+    - name: "Prestigio temperature"
+      unique_id: prestigio_pth01bt_temperature
+      state_topic: "r4s0/aabbccddeeff/temperature"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      suggested_display_precision: 2
+      device:
+        identifiers: ["prestigio_pth01bt"]
+        name: "Prestigio PTH01BT"
+        manufacturer: "Prestigio"
+        model: "PTH01BT"
+
+    - name: "Prestigio humidity"
+      unique_id: prestigio_pth01bt_humidity
+      state_topic: "r4s0/aabbccddeeff/humidity"
+      unit_of_measurement: "%"
+      device_class: humidity
+      state_class: measurement
+      suggested_display_precision: 2
+      device:
+        identifiers: ["prestigio_pth01bt"]
+
+    - name: "Prestigio pressure"
+      unique_id: prestigio_pth01bt_pressure
+      state_topic: "r4s0/aabbccddeeff/pressure"
+      unit_of_measurement: "hPa"
+      device_class: pressure
+      state_class: measurement
+      suggested_display_precision: 1
+      device:
+        identifiers: ["prestigio_pth01bt"]
+
+    - name: "Prestigio battery"
+      unique_id: prestigio_pth01bt_battery
+      state_topic: "r4s0/aabbccddeeff/battery"
+      unit_of_measurement: "%"
+      device_class: battery
+      state_class: measurement
+      device:
+        identifiers: ["prestigio_pth01bt"]
+
+# Пример шаблона: «комфорт» по температуре/влажности.
+template:
+  - sensor:
+      - name: "Prestigio comfort"
+        unique_id: prestigio_pth01bt_comfort
+        state: >-
+          {% set t = states('sensor.prestigio_temperature') | float(none) %}
+          {% set h = states('sensor.prestigio_humidity') | float(none) %}
+          {% if t is none or h is none %}unknown
+          {% elif 20 <= t <= 25 and 40 <= h <= 60 %}comfort
+          {% elif t < 18 or t > 27 %}too_hot_or_cold
+          {% else %}ok
+          {% endif %}
+
