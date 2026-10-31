@@ -6,7 +6,7 @@
 - [x] R4S-шлюз: MQTT-топики Prestigio, Prometheus exporter;
 - [x] Home Assistant: MQTT-сущности Prestigio;
 - [ ] SleepDot #1/#2: стабильный GATT, история сна, батарея;
-- [ ] RSC-51S: оформить как `sensors/rsc-51s-co2` по тому же шаблону.
+- [x] RSC-51S: оформлен как `sensors/rsc-51s-co2` (Windows/ESP32/R4S/HA).
 
 ## Следующее
 

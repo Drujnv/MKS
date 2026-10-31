@@ -31,7 +31,7 @@ Assistant и измерения появились потому, что для �
 | Направление | Репозиторий/папка | Статус |
 |---|---|---|
 | Prestigio PTH01BT: протокол, Windows/ESP32/R4S/HA | [`sensors/prestigio-pth01bt`](sensors/prestigio-pth01bt) | **готово** |
-| RSC-51S CO₂: протокол, прямой BLE | `sensors/rsc-51s-co2` | подготовлено |
+| RSC-51S CO₂: протокол, Windows/ESP32/R4S | [`sensors/rsc-51s-co2`](sensors/rsc-51s-co2) | **готово** |
 | SleepDot/Sleepace: GATT, история сна | `sensors/sleepdot` | в работе |
 | ESP32/R4S-шлюз: MQTT, HA, мультиустройства | `gateway/esp32-r4s` | в работе |
 | Дом: сон + CO₂ + свет + шум | `home/` | ongoing |
@@ -53,6 +53,8 @@ MKS/
 
 - [Prestigio PTH01BT](sensors/prestigio-pth01bt/README.md) — протокол, формулы,
   Windows/ESP32/R4S-интеграции, точность и поправки.
+- [RSC-51S CO₂](sensors/rsc-51s-co2/README.md) — прямой BLE, ESP32, R4S/HA,
+  проверка ppm и прогрев.
 
 ## Лицензия и авторство
 

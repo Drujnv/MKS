@@ -1,0 +1,39 @@
+# Home Assistant: RSC-51S CO₂ через MQTT.
+# Замените MAC-плейсхолдер на MAC станции из вашего R4S/шлюза.
+# Топики могут отличаться в зависимости от сборки форка — сверьтесь с UI/MQTT.
+
+mqtt:
+  sensor:
+    - name: "RSC-51S CO2"
+      unique_id: rsc51s_co2
+      state_topic: "r4s0/aabbccddeeff/co2"
+      unit_of_measurement: "ppm"
+      device_class: carbon_dioxide
+      state_class: measurement
+      icon: mdi:molecule-co2
+      device:
+        identifiers: ["rsc51s"]
+        name: "Redmond RSC-51S"
+        manufacturer: "Redmond"
+        model: "RSC-51S"
+
+    - name: "RSC-51S temperature"
+      unique_id: rsc51s_temperature
+      state_topic: "r4s0/aabbccddeeff/temperature"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      device:
+        identifiers: ["rsc51s"]
+
+    - name: "RSC-51S humidity"
+      unique_id: rsc51s_humidity
+      state_topic: "r4s0/aabbccddeeff/humidity"
+      unit_of_measurement: "%"
+      device_class: humidity
+      state_class: measurement
+      device:
+        identifiers: ["rsc51s"]
+
+# Если шлюз публикует сырое значение влажности — не выдавайте его за проценты.
+# Для CO₂ используйте ppm = raw + 400; сырое значение лучше хранить отдельно.
