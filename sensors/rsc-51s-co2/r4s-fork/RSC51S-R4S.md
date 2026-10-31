@@ -1,4 +1,4 @@
-# RSC-51S в форке `alutov/ESP32-R4sGate-for-Redmond`
+﻿# RSC-51S в форке `alutov/ESP32-R4sGate-for-Redmond`
 
 RSC-51S — **штатное Redmond-устройство** этого форка. Отдельный патч для
 подключения станции не нужен: в прошивке уже есть BLE-клиент Redmond и
@@ -47,3 +47,9 @@ PR в `alutov/ESP32-R4sGate-for-Redmond`, логично добавить:
 
 - форк: https://github.com/alutov/ESP32-R4sGate-for-Redmond
 - наш проект: https://github.com/Drujnv/MKS
+
+
+## Связь с автором
+
+Открыт вежливый issue: https://github.com/alutov/ESP32-R4sGate-for-Redmond/issues/258 — с благодарностью и предложением документации, без требований.
+
