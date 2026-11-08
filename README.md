@@ -32,6 +32,7 @@ Assistant и измерения появились потому, что для �
 |---|---|---|
 | Prestigio PTH01BT: протокол, Windows/ESP32/R4S/HA | [`sensors/prestigio-pth01bt`](sensors/prestigio-pth01bt) | **готово** |
 | RSC-51S CO₂: протокол, Windows/ESP32/R4S | [`sensors/rsc-51s-co2`](sensors/rsc-51s-co2) | **готово** |
+| **Oximeter S-89**: F108, SpO₂/пульс/HRV/PI, Windows/ESP32/HA | [`sensors/oximeter-s89`](sensors/oximeter-s89) | **готово** |
 | SleepDot/Sleepace: GATT, история сна | `sensors/sleepdot` | в работе |
 | ESP32/R4S-шлюз: MQTT, HA, мультиустройства | `gateway/esp32-r4s` | в работе |
 | Дом: сон + CO₂ + свет + шум | `home/` | ongoing |
@@ -44,7 +45,9 @@ MKS/
 ├── docs/
 │   └── ABOUT-MKS.md          манифест: всё ради книги
 ├── sensors/
-│   └── prestigio-pth01bt/    готовый проект датчика
+│   ├── prestigio-pth01bt/    готовый проект датчика
+│   ├── rsc-51s-co2/          готовый проект датчика
+│   └── oximeter-s89/        S-89: протокол, клиент, ESP32/HA
 ├── gateway/                  ESP32/R4S, MQTT, Home Assistant
 └── home/                     измерения, отчёты, корреляции
 ```

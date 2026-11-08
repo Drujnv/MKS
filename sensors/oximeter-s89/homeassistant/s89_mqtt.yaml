@@ -1,0 +1,67 @@
+# S-89: MQTT discovery для Home Assistant
+# Мост публикует JSON в mks/oximeter/state.
+# Замени mks_oximeter_s89 на свой уникальный id, если он уже занят.
+
+mqtt:
+  sensor:
+    - name: "S-89 SpO2"
+      unique_id: mks_oximeter_s89_spo2
+      state_topic: "mks/oximeter/state"
+      value_template: "{{ value_json.spo2 }}"
+      unit_of_measurement: "%"
+      icon: mdi:water-percent
+      availability_topic: "mks/oximeter/status"
+      payload_available: "online"
+      payload_not_available: "offline"
+      device:
+        identifiers: [mks_oximeter_s89]
+        name: "Пульсоксиметр S-89"
+        manufacturer: "Veepoo/Goodix OEM"
+        model: "S-89"
+
+    - name: "S-89 пульс"
+      unique_id: mks_oximeter_s89_pulse
+      state_topic: "mks/oximeter/state"
+      value_template: "{{ value_json.pulse }}"
+      unit_of_measurement: "bpm"
+      icon: mdi:heart-pulse
+      availability_topic: "mks/oximeter/status"
+      payload_available: "online"
+      payload_not_available: "offline"
+      device:
+        identifiers: [mks_oximeter_s89]
+
+    - name: "S-89 HRV"
+      unique_id: mks_oximeter_s89_hrv
+      state_topic: "mks/oximeter/state"
+      value_template: "{{ value_json.hrv }}"
+      unit_of_measurement: "ms"
+      icon: mdi:heart-flash
+      availability_topic: "mks/oximeter/status"
+      payload_available: "online"
+      payload_not_available: "offline"
+      device:
+        identifiers: [mks_oximeter_s89]
+
+    - name: "S-89 PI"
+      unique_id: mks_oximeter_s89_pi
+      state_topic: "mks/oximeter/state"
+      value_template: "{{ value_json.pi }}"
+      unit_of_measurement: "%"
+      icon: mdi:chart-bell-curve
+      availability_topic: "mks/oximeter/status"
+      payload_available: "online"
+      payload_not_available: "offline"
+      device:
+        identifiers: [mks_oximeter_s89]
+
+  binary_sensor:
+    - name: "S-89 надет"
+      unique_id: mks_oximeter_s89_worn
+      state_topic: "mks/oximeter/state"
+      value_template: "{{ 'ON' if value_json.worn else 'OFF' }}"
+      availability_topic: "mks/oximeter/status"
+      payload_available: "online"
+      payload_not_available: "offline"
+      device:
+        identifiers: [mks_oximeter_s89]
