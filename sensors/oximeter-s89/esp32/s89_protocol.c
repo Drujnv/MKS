@@ -33,7 +33,7 @@ bool s89_parse_battery(const uint8_t *data, size_t len, s89_battery_t *out)
 bool s89_parse_adc(const uint8_t *data, size_t len, int out[5])
 {
     if (!data || !out || len < 18) return false;
-    if (data[0] != 0x90 || data[2] != 0x04) return false;
+    if (data[0] != 0x90 || (data[2] != 0x04 && data[2] != 0x05)) return false;
     for (int i = 0; i < 5; i++) {
         const uint8_t *b = data + 3 + i * 3;
         out[i] = (b[0] << 16) | (b[1] << 8) | b[2];

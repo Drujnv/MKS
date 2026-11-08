@@ -49,15 +49,15 @@ def parse_battery(data: bytes) -> dict | None:
     return {"status": data[4], "level": data[5]}
 
 
-def parse_adc(data: bytes) -> list[int] | None:
-    """F102 ADC frame: 5 x 3-byte big-endian samples at [3..17]."""
-    if len(data) < 18 or data[0] != 0x90 or data[2] != 4:
+def parse_adc(data: bytes) -> dict | None:
+    """F102 ADC frame: two channels ([2]=4/5), 5 x 3-byte big-endian samples at [3..17]."""
+    if len(data) < 18 or data[0] != 0x90 or data[2] not in (4, 5):
         return None
     vals = []
     for i in range(5):
         b = data[3 + i * 3:6 + i * 3]
         vals.append((b[0] << 16) | (b[1] << 8) | b[2])
-    return vals
+    return {"channel": data[2], "values": vals}
 
 
 def parse_frame(data: bytes) -> dict | None:
@@ -126,9 +126,9 @@ async def run(mac: str | None, seconds: float, scan: float, ppg: bool = False,
             print(f"SpO2={r['spo2']}%  pulse={r['pulse']}  HRV={r['hrv']}  PI={r['pi']}%")
 
     def on_adc(_char, data: bytearray) -> None:
-        vals = parse_adc(bytes(data))
-        if vals:
-            print(f"PPG={vals}")
+        r = parse_adc(bytes(data))
+        if r:
+            print(f"PPG ch={r['channel']} values={r['values']}")
 
     async with BleakClient(mac, timeout=25) as client:
         print("connected")
@@ -169,8 +169,9 @@ def selftest() -> int:
     assert parse_frame(bytes.fromhex("90 02 01 01 00 00 00 00")) is None
     assert parse_frame(bytes.fromhex("90 02 03 00 63 45 d2 b7")) is None
     assert parse_battery(bytes.fromhex("90 01 02 01 01 64"))["level"] == 100
-    assert parse_adc(bytes.fromhex("90 02 04 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f")) == [
-        0x010203, 0x040506, 0x070809, 0x0a0b0c, 0x0d0e0f]
+    assert parse_adc(bytes.fromhex("90 02 04 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f")) == {
+        "channel": 4, "values": [0x010203, 0x040506, 0x070809, 0x0a0b0c, 0x0d0e0f]}
+    assert parse_adc(bytes.fromhex("90 02 05 03 51 50 03 55 07 03 59 11 03 5d 3b 03 60 30"))["channel"] == 5
     print("selftest ok")
     return 0
 
