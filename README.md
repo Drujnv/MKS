@@ -33,6 +33,7 @@ Assistant и измерения появились потому, что для �
 | Prestigio PTH01BT: протокол, Windows/ESP32/R4S/HA | [`sensors/prestigio-pth01bt`](sensors/prestigio-pth01bt) | **готово** |
 | RSC-51S CO₂: протокол, Windows/ESP32/R4S | [`sensors/rsc-51s-co2`](sensors/rsc-51s-co2) | **готово** |
 | **Oximeter S-89**: F108, SpO₂/пульс/HRV/PI, Windows/ESP32/HA | [`sensors/oximeter-s89`](sensors/oximeter-s89) | **готово** |
+| **Mi Band 1A**: BLE GATT, UserInfo без ключа, battery/steps/HA | [`sensors/miband-1a`](sensors/miband-1a) | **в работе, live не подтверждён** |
 | SleepDot/Sleepace: GATT, история сна | `sensors/sleepdot` | в работе |
 | ESP32/R4S-шлюз: MQTT, HA, мультиустройства | `gateway/esp32-r4s` | в работе |
 | Дом: сон + CO₂ + свет + шум | `home/` | ongoing |
@@ -47,7 +48,8 @@ MKS/
 ├── sensors/
 │   ├── prestigio-pth01bt/    готовый проект датчика
 │   ├── rsc-51s-co2/          готовый проект датчика
-│   └── oximeter-s89/        S-89: протокол, клиент, ESP32/HA
+│   ├── oximeter-s89/        S-89: протокол, клиент, ESP32/HA
+│   └── miband-1a/           Mi Band 1A: протокол, pairing, HA
 ├── gateway/                  ESP32/R4S, MQTT, Home Assistant
 └── home/                     измерения, отчёты, корреляции
 ```
@@ -58,10 +60,13 @@ MKS/
   Windows/ESP32/R4S-интеграции, точность и поправки.
 - [RSC-51S CO₂](sensors/rsc-51s-co2/README.md) — прямой BLE, ESP32, R4S/HA,
   проверка ppm и прогрев.
+- [Mi Band 1A](sensors/miband-1a/README.md) — GATT, pairing без ключа,
+  battery/steps, честные ошибки и ограничения.
 
 ## Лицензия и авторство
 
-Код и документация — MIT. Данные измерений — CC-BY-4.0, если не указано иное.
+Код и документация — MIT. Исключение: `sensors/miband-1a` — **GPL-3.0-or-later**,
+потому что опирается на pymb1a (GPLv3). Данные измерений — CC-BY-4.0, если не указано иное.
 Авторство: **проект МКС** (MKS), владелец и участники проекта. При использовании
 просим ссылку на этот репозиторий и указание, что инструмент родился в проекте
 книги «Многомерный Кристалл Сознания».
