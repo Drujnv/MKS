@@ -39,7 +39,20 @@ typedef struct {
 /* Собрать 20-байтовый кадр: start=0x01, stop=0x02. */
 void s89_make_cmd(uint8_t out[S89_CMD_LEN], uint8_t op);
 
+/* Запрос батареи: 90 01 02 ... (ответ [2]=2,[4]=status,[5]=%). */
+void s89_make_battery_cmd(uint8_t out[S89_CMD_LEN]);
+
 /* Разобрать notify. Возвращает true только для валидного измерения. */
 bool s89_parse(const uint8_t *data, size_t len, s89_reading_t *out);
+
+typedef struct {
+    int status; /* 1 normal, 2 charging, 3 full, 4 low */
+    int level;  /* % */
+} s89_battery_t;
+
+bool s89_parse_battery(const uint8_t *data, size_t len, s89_battery_t *out);
+
+/* F102 ADC/PPG: 5 сэмплов по 3 байта, начиная с [3]. */
+bool s89_parse_adc(const uint8_t *data, size_t len, int out[5]);
 
 #endif /* S89_PROTOCOL_H */

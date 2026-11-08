@@ -37,3 +37,7 @@ if (s89_parse(param->notify.value, param->notify.value_len, &r)) {
   ESP32 его не увидит.
 - PI = `[7] / 10`; не `/100`.
 - Температуры в S-89 нет.
+- Батарея: `s89_make_battery_cmd()` → `90 01 02`; ответ `s89_parse_battery`
+  (`[2]=2`, `[3]=ack`, `[4]=status`, `[5]=%`). Живой ответ ещё не подтверждён.
+- PPG/ADC: `s89_parse_adc` для кадров F102 с `[2]=4`, 5 сэмплов по 3 байта
+  с `[3]`. Формулу `convert_ecg_value` из SDK ещё нужно перенести.
