@@ -46,8 +46,9 @@ void s89_make_battery_cmd(uint8_t out[S89_CMD_LEN]);
 bool s89_parse(const uint8_t *data, size_t len, s89_reading_t *out);
 
 typedef struct {
-    int status; /* 1 normal, 2 charging, 3 full, 4 low */
-    int level;  /* % */
+    int status;    /* 1 normal, 2 charging, 3 full, 4 low, 0 unknown */
+    int level_raw; /* число делений 0..4, НЕ проценты */
+    int percent;   /* level_raw * 25, 0..100 */
 } s89_battery_t;
 
 bool s89_parse_battery(const uint8_t *data, size_t len, s89_battery_t *out);

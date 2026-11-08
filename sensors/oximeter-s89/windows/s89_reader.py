@@ -43,10 +43,13 @@ def make_battery_cmd() -> bytes:
 
 
 def parse_battery(data: bytes) -> dict | None:
-    """Battery response: [2]==2, [3]==ack, [4]==status, [5]==level."""
+    """Battery response: [2]==2, [3]==ack, [4]==status, [5]==level bars (0..4)."""
     if len(data) < 6 or data[0] != 0x90 or data[2] != 2 or data[3] != 1:
         return None
-    return {"status": data[4], "level": data[5]}
+    raw = data[5]
+    # На экране S-89 4 деления = 100 %. [5] — число делений, не проценты.
+    pct = min(100, max(0, raw * 25))
+    return {"status": data[4], "level_raw": raw, "percent": pct}
 
 
 def parse_adc(data: bytes) -> dict | None:
@@ -119,7 +122,7 @@ async def run(mac: str | None, seconds: float, scan: float, ppg: bool = False,
         raw = bytes(data)
         b = parse_battery(raw)
         if b:
-            print(f"BATTERY status={b['status']} level={b['level']}%")
+            print(f"BATTERY status={b['status']} bars={b['level_raw']}/4 = {b['percent']}%")
             return
         r = parse_frame(raw)
         if r:
@@ -168,7 +171,8 @@ def selftest() -> int:
     assert parse_frame(bytes.fromhex("90 02 03 01 63 45 d2 b7"))["pi"] == 18.3
     assert parse_frame(bytes.fromhex("90 02 01 01 00 00 00 00")) is None
     assert parse_frame(bytes.fromhex("90 02 03 00 63 45 d2 b7")) is None
-    assert parse_battery(bytes.fromhex("90 01 02 01 01 64"))["level"] == 100
+    assert parse_battery(bytes.fromhex("90 01 02 01 00 04"))["percent"] == 100
+    assert parse_battery(bytes.fromhex("90 01 02 01 00 04"))["level_raw"] == 4
     assert parse_adc(bytes.fromhex("90 02 04 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f")) == {
         "channel": 4, "values": [0x010203, 0x040506, 0x070809, 0x0a0b0c, 0x0d0e0f]}
     assert parse_adc(bytes.fromhex("90 02 05 03 51 50 03 55 07 03 59 11 03 5d 3b 03 60 30"))["channel"] == 5

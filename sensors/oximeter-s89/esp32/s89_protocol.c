@@ -26,7 +26,8 @@ bool s89_parse_battery(const uint8_t *data, size_t len, s89_battery_t *out)
     if (!data || !out || len < 6) return false;
     if (data[0] != 0x90 || data[2] != 0x02 || data[3] != 1) return false;
     out->status = data[4];
-    out->level = data[5];
+    out->level_raw = data[5];
+    out->percent = out->level_raw > 4 ? 100 : out->level_raw * 25;
     return true;
 }
 
